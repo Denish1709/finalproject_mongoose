@@ -32,7 +32,6 @@ router.post("/", async (req, res) => {
       name: req.body.name,
       description: req.body.description,
       basicAbilities: req.body.basicAbilities,
-      passiveAbilities: req.body.passiveAbilities,
       signatureAbilities: req.body.signatureAbilities,
       ultimateAbilities: req.body.ultimateAbilities,
       role: req.body.role,
@@ -46,26 +45,6 @@ router.post("/", async (req, res) => {
     res.status(400).send({ message: error._message });
   }
 });
-
-// router.post("/", async (req, res) => {
-//   try {
-//     console.log(req.body);
-//     const newAgent = new Agent({
-//       name: req.body.name,
-//       description: req.body.description,
-//       basicAbilities: req.body.basicAbilities,
-//       passiveAbilities: req.body.passiveAbilities,
-//       signatureAbilities: req.body.signatureAbilities,
-//       ultimateAbilities: req.body.ultimateAbilities,
-//       role: req.body.role,
-//       image: req.body.image,
-//     });
-//     await newAgent.save();
-//     res.status(200).send(newAgent);
-//   } catch (error) {
-//     res.status(400).send({ message: error._message });
-//   }
-// });
 
 router.put("/:id", async (req, res) => {
   try {

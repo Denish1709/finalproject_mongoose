@@ -8,13 +8,8 @@ const agentSchema = new Schema({
   },
   description: {
     type: String,
-    // required: true,
   },
   basicAbilities: {
-    type: String,
-    require: true,
-  },
-  passiveAbilities: {
     type: String,
     require: true,
   },

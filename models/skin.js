@@ -2,13 +2,29 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const agentSchema = new Schema({
-  name: {
+  skinName: {
     type: String,
-    required: true,
   },
-  mainImg: {
+  bundlePrice: {
+    type: Number,
+  },
+  gunPrice: {
+    type: Number,
+  },
+  meleePrice: {
+    type: Number,
+  },
+  gunName2: {
     type: String,
-    require: true,
+  },
+  gunName3: {
+    type: String,
+  },
+  gunName4: {
+    type: String,
+  },
+  gunName5: {
+    type: String,
   },
   image1: {
     type: String,

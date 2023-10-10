@@ -1,11 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
-// const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 const { isEmail } = require("../utilities/functions");
-// const { JWT_SECRET } = require("../config");
+const { JWT_SECRET } = require("../config");
 
 router.post("/register", async (req, res) => {
   try {
@@ -43,7 +43,7 @@ router.post("/register", async (req, res) => {
       name: newUser.name,
       email: newUser.email,
       role: newUser.role,
-      //   token: token,
+      token: token,
     });
   } catch (error) {
     res.status(400).send({ message: error._message });
@@ -67,7 +67,7 @@ router.post("/login", async (req, res) => {
     }
 
     // generate JSON web token
-    // const token = jwt.sign({ _id: user._id }, JWT_SECRET);
+    const token = jwt.sign({ _id: user._id }, JWT_SECRET);
 
     // return back the data
     res.status(200).send({
@@ -75,9 +75,10 @@ router.post("/login", async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      //   token: token,
+      token: token,
     });
   } catch (error) {
+    console.log(error);
     res.status(400).send({ message: error._message });
   }
 });

@@ -1,13 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const { MONGODB_URL } = require("./config");
 
 const app = express();
 app.use(express.json());
 const port = 5000;
-
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
 
 // setup cors
 const corsHandler = cors({
@@ -21,7 +19,7 @@ const corsHandler = cors({
 app.use(corsHandler);
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/valorantDB")
+  .connect(MONGODB_URL + "valorantDB")
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.log(err));
 
@@ -32,21 +30,19 @@ const mapRouter = require("./routes/map");
 const skinRouter = require("./routes/skin");
 const imageRouter = require("./routes/image");
 const agentRouter = require("./routes/agent");
+const paymentRouter = require("./routes/payment");
 const authRouter = require("./routes/auth");
-// const mapRouter = require("./models/map");
-
-// app.get("/", (req, res) => {
-//   res.send("Final Project");
-// });
+const orderRouter = require("./routes/order");
 
 app.use("/guns", gunRouter);
 app.use("/ranks", rankRouter);
-app.use("/skins", skinRouter);
 app.use("/maps", mapRouter);
-app.use("/agents", agentRouter);
+app.use("/skins", skinRouter);
 app.use("/images", imageRouter);
+app.use("/agents", agentRouter);
+app.use("/payment", paymentRouter);
 app.use("/auth", authRouter);
-// app.use("/maps", mapRouter);
+app.use("/orders", orderRouter);
 
 app.use("/uploads", express.static("uploads"));
 
