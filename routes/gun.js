@@ -3,6 +3,8 @@ const router = express.Router();
 
 const Gun = require("../models/gun");
 
+const isAdminMiddleware = require("../middleware/isAdmin");
+
 router.get("/", async (req, res) => {
   try {
     const { category } = req.query;
@@ -25,7 +27,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", isAdminMiddleware, async (req, res) => {
   try {
     const newGun = new Gun({
       name: req.body.name,
@@ -39,7 +41,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", isAdminMiddleware, async (req, res) => {
   try {
     const gun_id = req.params.id;
 
@@ -52,7 +54,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAdminMiddleware, async (req, res) => {
   try {
     const gun_id = req.params.id;
     const deletePro = await Gun.findByIdAndDelete(gun_id);

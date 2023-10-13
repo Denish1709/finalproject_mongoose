@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-// const Product = require("./product");
-
 const orderSchema = new Schema({
   customerName: {
     type: String,

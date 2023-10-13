@@ -7,7 +7,6 @@ const app = express();
 app.use(express.json());
 const port = 5000;
 
-// setup cors
 const corsHandler = cors({
   origin: "*",
   methods: "GET,POST,PUT,DELETE",
@@ -23,7 +22,6 @@ mongoose
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.log(err));
 
-// routes
 const gunRouter = require("./routes/gun");
 const rankRouter = require("./routes/rank");
 const mapRouter = require("./routes/map");

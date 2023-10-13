@@ -3,6 +3,8 @@ const router = express.Router();
 
 const Agent = require("../models/agent");
 
+const isAdminMiddleware = require("../middleware/isAdmin");
+
 router.get("/", async (req, res) => {
   try {
     const { role } = req.query;
@@ -25,9 +27,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", isAdminMiddleware, async (req, res) => {
   try {
-    console.log(req.body);
     const newAgent = new Agent({
       name: req.body.name,
       description: req.body.description,
@@ -41,12 +42,11 @@ router.post("/", async (req, res) => {
 
     res.status(200).send(newAgent);
   } catch (error) {
-    // console.log(error);
     res.status(400).send({ message: error._message });
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", isAdminMiddleware, async (req, res) => {
   try {
     const agent_id = req.params.id;
 
@@ -59,7 +59,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAdminMiddleware, async (req, res) => {
   try {
     const agent_id = req.params.id;
     const deleteAgent = await Agent.findByIdAndDelete(agent_id);

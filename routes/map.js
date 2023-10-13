@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const Map = require("../models/map");
+const isAdminMiddleware = require("../middleware/isAdmin");
 
 router.get("/", async (req, res) => {
   try {
@@ -25,9 +26,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", isAdminMiddleware, async (req, res) => {
   try {
-    console.log(req.body);
     const newMap = new Map({
       name: req.body.name,
       image: req.body.image,
@@ -36,12 +36,11 @@ router.post("/", async (req, res) => {
 
     res.status(200).send(newMap);
   } catch (error) {
-    // console.log(error);
     res.status(400).send({ message: error._message });
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", isAdminMiddleware, async (req, res) => {
   try {
     const map_id = req.params.id;
 
@@ -54,7 +53,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAdminMiddleware, async (req, res) => {
   try {
     const map_id = req.params.id;
     const deleteMap = await Map.findByIdAndDelete(map_id);

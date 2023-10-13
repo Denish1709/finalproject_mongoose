@@ -22,9 +22,8 @@ router.get("/", authMiddleware, async (req, res) => {
       filter.status = status;
     }
 
-    // only user will have this filter
     if (req.user && req.user.role === "user") {
-      filter.customerEmail = req.user.email;
+      filter.customerName = req.user.name;
     }
 
     res
@@ -44,10 +43,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
-  //create order in database
+router.post("/", isAdminMiddleware, async (req, res) => {
   try {
-    //call the billplz API to create a bill
     const billplz = await axios({
       method: "POST",
       url: BILLPLZ_API_URL + "v3/bills",
@@ -70,13 +67,12 @@ router.post("/", async (req, res) => {
       customerEmail: req.body.customerEmail,
       skins: req.body.skins,
       totalPrice: req.body.totalPrice,
-      billplz_id: billplz.data.id, //store the billplz ID in our order
+      billplz_id: billplz.data.id,
     });
     await newOrder.save();
 
     res.status(200).send(billplz.data);
   } catch (error) {
-    console.log(error);
     res.status(400).send({
       message: error._message
         ? error._message

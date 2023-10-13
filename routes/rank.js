@@ -3,6 +3,8 @@ const router = express.Router();
 
 const Rank = require("../models/rank");
 
+const isAdminMiddleware = require("../middleware/isAdmin");
+
 router.get("/", async (req, res) => {
   try {
     const { rank } = req.query;
@@ -25,7 +27,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", isAdminMiddleware, async (req, res) => {
   try {
     console.log(req.body);
     const newRank = new Rank({
@@ -37,12 +39,11 @@ router.post("/", async (req, res) => {
 
     res.status(200).send(newRank);
   } catch (error) {
-    // console.log(error);
     res.status(400).send({ message: error._message });
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", isAdminMiddleware, async (req, res) => {
   try {
     const rank_id = req.params.id;
 
@@ -55,7 +56,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isAdminMiddleware, async (req, res) => {
   try {
     const rank_id = req.params.id;
     const deleteRank = await Rank.findByIdAndDelete(rank_id);
