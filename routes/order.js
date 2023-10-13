@@ -43,7 +43,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", isAdminMiddleware, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const billplz = await axios({
       method: "POST",
