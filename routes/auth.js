@@ -50,12 +50,19 @@ router.post("/login", async (req, res) => {
     const password = req.body.password;
     const user = await User.findOne({ email: email });
     if (!user) {
-      return res.status(400).send({ message: "Invalid email or password" });
+      return res.status(400).send({
+        message: "Your login credentials don't match an account in our system",
+      });
     }
 
     const isPasswordCorrect = bcrypt.compareSync(password, user.password);
     if (!isPasswordCorrect) {
-      return res.status(400).send({ message: "Invalid email or password" });
+      return res
+        .status(400)
+        .send({
+          message:
+            "Your login credentials don't match an account in our system",
+        });
     }
 
     const token = jwt.sign({ _id: user._id }, JWT_SECRET);

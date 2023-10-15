@@ -6,6 +6,10 @@ const rankSchema = new Schema({
     type: String,
     require: true,
   },
+  rank: {
+    type: String,
+    require: true,
+  },
   image: {
     type: String,
   },
